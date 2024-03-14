@@ -8,10 +8,12 @@ COPY nest-cli.json nest-cli.json
 
 RUN npm install
 
-COPY apps/reservations apps/reservations
+COPY apps/payments apps/payments
 COPY libs libs
 
-RUN npm run build reservations
+RUN cd apps/payments && npm install
+
+RUN npm run build payments
 
 FROM node:alpine As production
 
@@ -26,4 +28,4 @@ RUN npm install --only=production
 
 COPY --from=development /usr/src/app/dist ./dist
 
-CMD ["node", "dist/apps/reservations/main"]
+CMD ["node", "dist/apps/payments/main"]

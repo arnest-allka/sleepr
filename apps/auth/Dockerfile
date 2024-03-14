@@ -1,16 +1,21 @@
-FROM node:20 As development
+FROM node:alpine As development
 
 WORKDIR /usr/src/app
 
 COPY package*.json ./
+COPY tsconfig.json tsconfig.json
+COPY nest-cli.json nest-cli.json
 
-RUN yarn
+RUN npm install
 
-COPY . .
+COPY apps/auth apps/auth
+COPY libs libs
 
-RUN yarn build
+RUN cd apps/auth && npm install
 
-FROM node:20 As production
+RUN npm run build auth
+
+FROM node:alpine As production
 
 ARG NODE_ENV=production
 ENV NODE_ENV=${NODE_ENV}
@@ -19,7 +24,7 @@ WORKDIR /usr/src/app
 
 COPY package*.json ./
 
-RUN yarn install --prod
+RUN npm install --only=production
 
 COPY --from=development /usr/src/app/dist ./dist
 
