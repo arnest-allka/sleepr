@@ -1,0 +1,49 @@
+steps:
+  #Reservations
+  - name: 'gcr.io/cloud-builder/docker'
+    args: [
+      'build',
+      '-t',
+      'europe-west8-docker.pkg.dev/nestjs-k8s-415221/reservations/production',
+      '-f',
+      'apps/reservations/Dockerfile',
+      '.'
+    ]
+  - name: 'gcr.io/cloud-builder/docker'
+    args: ['push', 'europe-west8-docker.pkg.dev/nestjs-k8s-415221/reservations/production']
+  #Auth
+  - name: 'gcr.io/cloud-builder/docker'
+    args: [
+      'build',
+      '-t',
+      'europe-west8-docker.pkg.dev/nestjs-k8s-415221/auth/production',
+      '-f',
+      'apps/auth/Dockerfile',
+      '.'
+    ]
+  - name: 'gcr.io/cloud-builder/docker'
+    args: ['push', 'europe-west8-docker.pkg.dev/nestjs-k8s-415221/auth/production']
+  #Payments
+  - name: 'gcr.io/cloud-builder/docker'
+    args: [
+      'build',
+      '-t',
+      'europe-west8-docker.pkg.dev/nestjs-k8s-415221/payments/production',
+      '-f',
+      'apps/payments/Dockerfile',
+      '.'
+    ]
+  - name: 'gcr.io/cloud-builder/docker'
+    args: ['push', 'europe-west8-docker.pkg.dev/nestjs-k8s-415221/payments/production']
+  #Notifications
+  - name: 'gcr.io/cloud-builder/docker'
+    args: [
+      'build',
+      '-t',
+      'europe-west8-docker.pkg.dev/nestjs-k8s-415221/notifications/production',
+      '-f',
+      'apps/notifications/Dockerfile',
+      '.'
+    ]
+  - name: 'gcr.io/cloud-builder/docker'
+    args: ['push', 'europe-west8-docker.pkg.dev/nestjs-k8s-415221/notifications/production']
