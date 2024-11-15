@@ -17,3 +17,26 @@ spec:
       containers:
         - image: europe-west8-docker.pkg.dev/nestjs-k8s-415221/auth/production
           name: auth
+          env:
+            - name: TCP_PORT
+              value: '3002'
+            - name: HTTP_PORT
+              value: '3003'
+            - name: MONGODB_URI
+              valueFrom:
+                secretKeyRef:
+                  name: mongodb
+                  key: connectionString
+            - name: JWT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: jwt
+                  key: jwtSecretKey
+            - name: JWT_EXPIRATION
+              valueFrom:
+                secretKeyRef:
+                  name: jwt
+                  key: jwtExpiration
+          ports:
+            - containerPort: 3002
+            - containerPort: 3003

@@ -17,3 +17,17 @@ spec:
       containers:
         - image: europe-west8-docker.pkg.dev/nestjs-k8s-415221/payments/production
           name: payments
+          env:
+            - name: PORT
+              value: '3001'
+            - name: NOTIFICATIONS_HOST
+              value: notifications
+            - name: NOTIFICATIONS_PORT
+              value: '3000'
+            - name: STRIPE_SECRET_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: stripe
+                  key: stripeSecretKey
+          ports:
+            - containerPort: 3001

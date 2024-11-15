@@ -17,3 +17,21 @@ spec:
       containers:
         - image: europe-west8-docker.pkg.dev/nestjs-k8s-415221/reservations/production
           name: reservations
+          env:
+            - name: PORT
+              value: '3004'
+            - name: AUTH_HOST
+              value: auth-tcp
+            - name: AUTH_PORT
+              value: '3002'
+            - name: PAYMENTS_HOST
+              value: payments
+            - name: PAYMENTS_PORT
+              value: '3001'
+            - name: MONGODB_URI
+              valueFrom:
+                secretKeyRef:
+                  name: mongodb
+                  key: connectionString
+          ports:
+            - containerPort: 3004
